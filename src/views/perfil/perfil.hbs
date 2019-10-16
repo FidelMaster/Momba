@@ -1,0 +1,42 @@
+<div class="container">
+ {{#each  persona}}
+
+     <h1>
+       Hola, {{nombre}}
+     </h1>
+     <h4>
+         Miembro desde {{ fecha_regitro}}
+         {{ciudad}}
+     </h4>
+    <div class="card mb-3">
+  <img src="images/page-title.png" class="card-img-top" alt="5 px">
+  <div class="card-body">
+    <h5 class="card-title">Mi Informacion</h5>
+    <div class="row">
+  <div class="col-sm-6">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title text-center">Informacion Personal</h5>
+        <p class="card-text">Nombre: {{nombre}}</p>
+        <p class="card-text">Apellido: {{apellido}}</p>
+       
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-6">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Special title treatment</h5>
+        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+     
+      </div>
+    </div>
+  </div>
+</div>
+  </div>
+</div>
+    {{/each }}
+</div>
+    
+ 
+
