@@ -1,42 +1,90 @@
+ <style>
+   .thumbnail {
+   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.5);
+   transition: 0.3s;
+   min-width: 40%;
+   border-radius: 5px;
+ }
+
+ .thumbnail-description {
+   min-height: 40px;
+ }
+
+ .thumbnail:hover {
+   cursor: pointer;
+   box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 1);
+ }
+ </style>
+ <div class="page-title" style="background-image: url(images/page-title.png)">
+</div>
+
 <div class="container">
  {{#each  persona}}
-
-     <h1>
-       Hola, {{nombre}}
-     </h1>
-     <h4>
-         Miembro desde {{ fecha_regitro}}
-         {{ciudad}}
-     </h4>
-    <div class="card mb-3">
-  <img src="images/page-title.png" class="card-img-top" alt="5 px">
-  <div class="card-body">
-    <h5 class="card-title">Mi Informacion</h5>
     <div class="row">
-  <div class="col-sm-6">
-    <div class="card">
-      <div class="card-body">
-        <h5 class="card-title text-center">Informacion Personal</h5>
-        <p class="card-text">Nombre: {{nombre}}</p>
-        <p class="card-text">Apellido: {{apellido}}</p>
+    <div class="container">
+       <h1>
+         Bienvenido, {{nombre}}
+       </h1>
+       <h4>
+         Miembro desde {{ fecha_regitro}}
+       </h4>
        
-      </div>
     </div>
-  </div>
-  <div class="col-sm-6">
-    <div class="card">
-      <div class="card-body">
-        <h5 class="card-title">Special title treatment</h5>
-        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-     
-      </div>
     </div>
-  </div>
+
+   <div class="container">
+    <div class="row">
+    
+     <div class="col-md-6">
+        <div class="thumbnail">
+          <div class="caption text-center" onclick="location.href='https://flow.microsoft.com/en-us/connectors/shared_slack/slack/'">
+            <div class="position-relative">
+           
+            </div>
+            <h4 id="thumbnail-label"><a href="https://flow.microsoft.com/en-us/connectors/shared_slack/slack/" target="_blank">Informacion Personal</a></h4>
+            <p><i class="glyphicon glyphicon-user light-red lighter bigger-120"></i>&nbsp;{{nombre}} {{apellido}}</p>
+            <div class="thumbnail-description smaller">Slack is a team communication tool, that brings together all of your team communications in one place, instantly searchable and available wherever you go.</div>
+          </div>
+          <div class="caption card-footer text-center">
+            <ul class="list-inline">
+              <li><i class="people lighter"></i>&nbsp;7 Active Users</li>
+              <li></li>
+              <li><i class="glyphicon glyphicon-envelope lighter"></i><a href="#">&nbsp;Help</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+   
+    
+   <div class="col-md-6">
+      <div class="thumbnail">
+          <div class="caption text-center" onclick="location.href='https://flow.microsoft.com/en-us/connectors/shared_slack/slack/'">
+            <div class="position-relative">
+           
+            </div>
+            <h4 id="thumbnail-label"><a href="https://flow.microsoft.com/en-us/connectors/shared_slack/slack/" target="_blank">Informacion para entrega </a></h4>
+            <p><i class="glyphicon glyphicon-user light-red lighter bigger-120"></i>&nbsp;Auditor</p>
+            <div class="thumbnail-description smaller">Slack is a team communication tool, that brings together all of your team communications in one place, instantly searchable and available wherever you go.</div>
+          </div>
+          <div class="caption card-footer text-center">
+            <ul class="list-inline">
+              <li><i class="people lighter"></i>&nbsp;7 Active Users</li>
+              <li></li>
+              <li><i class="glyphicon glyphicon-envelope lighter"></i><a href="#">&nbsp;Help</a></li>
+            </ul>
+          </div>
+        </div>
+     </div>
+
+
 </div>
-  </div>
 </div>
-    {{/each }}
+
+ {{/each }}
+  
 </div>
+
     
  
 

@@ -43,8 +43,7 @@ router.get('/login', (req, res) => {
   });
 
 router.get('/perfil', isLoggedIn, async(req, res) => {
-  const persona = await pool.query('select * from Persona  where idCredenciales= ?',[req.user.id]);
- 
+  const persona = await pool.query('select * from Persona  where credencial= ?',[req.user.id]);
   res.render('perfil/perfil', { persona});
 });
 

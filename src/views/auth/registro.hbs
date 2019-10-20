@@ -1,28 +1,41 @@
+  <style>
+   .thumbnail {
+   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.5);
+   transition: 0.3s;
+
+   border-radius: 5px;
+ }
+
+ .thumbnail-description {
+   min-height: 40px;
+ }
+
+ .thumbnail:hover {
+   cursor: pointer;
+   box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 1);
+ }
+ </style>
+
+
 <div class="page-title" style="background-image: url(images/page-title.png)">
         <h1>Registro</h1>
-    </div>
-     <div class="container">
+</div>
+ <div class="col-md-4"></div>
+<div class="container">
     <div class="row">
-        <div class="col-md-4">
-        </div>
-        <div class="col-md-4">
-                <form action="/registro" method="POST">
-                        <div class="form-row">
-                          <div class="form-group col-md-6">
+      <div class="col-md-4"></div>
+         <div class="col-md-12" style="margin: 10px; width: 50%;  ">
+          <div class="thumbnail " >
+        
+             <form action="/registro" method="POST">
                             <label for="inputEmail4">Correo</label>
-                            <input type="email"   class="form-control"  name="correo"  placeholder="Correo">
-                          </div>
-                          <div class="form-group col-md-6">
+                            <input type="email"   class="form-control"  name="correo"  placeholder="Correo" style="width: 50%;">
                             <label for="inputPassword4">Contraseña</label>
-                            <input type="password" name="clave" class="form-control" id="inputPassword4" placeholder="Contraseña">
-                          </div>
-                        </div> 
-                        </div>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Registrarse</button>
-                      </form>
+                            <input type="password" name="clave" class="form-control" id="inputPassword4" style="width: 50%;" placeholder="Contraseña">
+                           <button type="submit" class="btn btn-primary">Registrarse</button>             
+                </form>
+          </div>
         </div>
-
         <div class="col-md-4"></div>
     </div>
 </div>
