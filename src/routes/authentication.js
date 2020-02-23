@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const {check, validationResult} = require('express-validator');
 
 const pool = require('../../database');
 
@@ -23,15 +24,16 @@ router.get('/login', (req, res) => {
   });
   
   router.post('/login', (req, res, next) => {
-    req.check('correo', 'Username is Required').notEmpty();
-    req.check('clave', 'Password is Required').notEmpty();
-    const errors = req.validationErrors();
+    console.log(req.body)
+      check('correo').isEmail();
+    const errors = validationResult(req);
     if (errors.length > 0) {
+      console.log("entre")
       req.flash('message', errors[0].msg);
       res.redirect('/login');
     }
     passport.authenticate('local.signin', {
-      successRedirect: '/profile',
+      successRedirect: '/perfil',
       failureRedirect: '/login',
       failureFlash: true
     })(req, res, next);
@@ -43,8 +45,13 @@ router.get('/login', (req, res) => {
   });
 
 router.get('/perfil', isLoggedIn, async(req, res) => {
-  const persona = await pool.query('select * from Persona  where credencial= ?',[req.user.id]);
-  res.render('perfil/perfil', { persona});
+  const idu=req.user.id;
+  cliente=await pool.query('select id from cliente where idPersona=?',[idu]);
+   
+  const persona = await pool.query('select * from Persona  where id_Credencial= ?',[req.user.id]);
+  const pedido =await pool.query('select pc.codVenta,pc.fecha,vct.total,ep.estado from pedido_cliente as pc inner join venta_cliente_total as vct on(pc.codVenta=vct.codVenta) inner join estado_pedido as ep on(pc.idEstado=ep.id) where idCliente=?',[cliente[0].id]);
+  console.log(pedido);
+  res.render('perfil/perfil', { persona,pedido});
 });
 
 module.exports = router;

@@ -21,6 +21,8 @@
     "mysql": "^2.17.1",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
+    "paypal-rest-sdk": "^1.8.1",
+    "stripe": "^7.10.0",
     "timeago.js": "^4.0.0"
   },
   "devDependencies": {

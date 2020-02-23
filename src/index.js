@@ -10,7 +10,13 @@ const MySQLStore = require('express-mysql-session')(session);
 const bodyParser = require('body-parser');
 
 const { database } = require('../conexion');
+const paypal = require('paypal-rest-sdk');
 
+paypal.configure({
+  'mode': 'sandbox', //sandbox or live
+  'client_id': 'AecbH3HphmupoNsWhVvjcaX3rNEFGF8RFMgRdboXGTu35B4jwWYE15sS0pYy3LZ8dvvdl7VW2E2KlB-b',
+  'client_secret': 'EJxa4mxKCwYkUoTCiuyqpQb0IrUBGOek3F-EPeRvlPWOW9G_J4IvMlgcHnqdbGddJzJq3REZD8aDNN0i'
+});
 // Intializations
 const app = express();
 require('./lib/passport');
@@ -29,7 +35,7 @@ app.set('view engine', '.hbs');
 
 // Middlewares
 app.use(morgan('dev'));
-app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
 app.use(session({
@@ -53,9 +59,11 @@ app.use((req, res, next) => {
 });
 
 // Routes
+
 app.use(require('./routes/index'));
 app.use(require('./routes/authentication'));
 app.use(require('./routes/ropa'));
+app.use(require('./routes/pagos'));
 
 // Public
 app.use(express.static(path.join(__dirname, 'public')));
