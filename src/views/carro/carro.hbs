@@ -53,9 +53,10 @@
                   <h2 class="card-title">{{nombre}}</h2>
 
                   <h4>Marca:{{marca}}</h4>
-                  <h4>Precio: ${{precio}}</h4>
-                  <h4>cantidad: {{cantidad}}</h4>
-                  <h4>SubTotal: ${{subTotal}}</h4>
+                  <h4>Precio: ${{precio_venta}}</h4>
+                 
+                     <a href="/carrito/eliminar/{{id_carrito}}" class="btm btn-danger"     >Eliminar</a>
+                   
 
                 </div>
               </div>
@@ -73,7 +74,7 @@
           <h1 style="text-align: center;">Detalle de pago</h1>
           <form action="/pay" method="POST">
             <h3>
-              subTotal:$<input type="number" id="total" onchange="ShowSelected();" name="total" value="{{total}}">
+              subTotal:$<input   id="total" onchange="ShowSelected();" name="total" value="{{total}}">
               </input>
 
             </h3>

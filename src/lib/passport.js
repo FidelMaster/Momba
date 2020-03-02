@@ -6,16 +6,16 @@ const helpers = require('./helpers');
 
 passport.use('local.signin', new LocalStrategy({
   usernameField: 'correo',
-  passwordField: 'clave',
+  passwordField: 'password',
   passReqToCallback: true
-}, async (req, correo, clave, done) => {
+}, async (req, correo, password, done) => {
   console.log(correo)
   
-  const rows = await pool.query('SELECT * FROM credenciales WHERE correo = ?', [correo]);
+  const rows = await pool.query('select * from tbladmin_users where correo = ?', [correo]);
   if (rows.length > 0) {
     const user = rows[0];
      
-    const validPassword = await helpers.matchPassword(clave, user.clave)
+    const validPassword = await helpers.matchPassword(password, user.password)
     console.log(validPassword);
     if (validPassword) {
       done(null, user, req.flash('success', 'Welcome ' + user.correo));
@@ -31,20 +31,30 @@ passport.use('local.signin', new LocalStrategy({
 
 passport.use('local.signup', new LocalStrategy({
   usernameField: 'correo',
-  passwordField: 'clave',
+  passwordField: 'password',
   passReqToCallback: true
-}, async (req, correo, clave, done) => {
+}, async (req, correo, password, done) => {
+  const {nombre, apellido, date} = req.body;
 
-  
+  // obtengo la direccion ip del usuario
+  //var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+  //rol 1 es cliente
+  var rol=1;
+  var permiso1=1;
+  var permiso2=2;
   let newUser = {
     correo,
-    clave
+    password
   };
-  newUser.clave = await helpers.encryptPassword(clave);
-  // Saving in the Database
-  const result = await pool.query('INSERT INTO Credenciales SET ? ', newUser);
+  newUser.password = await helpers.encryptPassword(password);
+  // almaceno los datos en la tabla user
+  const result = await pool.query('insert into tbladmin_users SET ? ', newUser);
   newUser.id = result.insertId;
-  await pool.query('update Credenciales SET idtipo=?  where id=?', [3,result.insertId]);
+  await pool.query('insert into tbladmin_roles_users(id_role,id_user,creado,actualizado) values(?,?,current_timestamp(),current_timestamp())', [rol,result.insertId]);
+  await pool.query('insert  tblusuarios_persona(id_user,nombre, apellido,fecha_nacimiento) values(?,?,?,?)', [result.insertId, nombre, apellido, date]);
+  id_p= await pool.query('select id from tblusuarios_persona where id_user=?', [result.insertId]);
+  console.log(id_p[0].id)
+  await pool.query('insert  tblusuarios_clientes(id_persona) values(?)', [id_p[0].id]);
   return done(null, newUser);
 }));
 
@@ -53,6 +63,6 @@ passport.serializeUser((user, done) => {
 });
 
 passport.deserializeUser(async (id, done) => {
-  const rows = await pool.query('SELECT * FROM credenciales WHERE id = ?', [id]);
+  const rows = await pool.query('select * from tbladmin_users where id = ?', [id]);
   done(null, rows[0]);
 });

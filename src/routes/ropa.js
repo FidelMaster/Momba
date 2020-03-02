@@ -7,51 +7,38 @@ router.get('/contacto', (req, res) => {
   res.render('secciones/contacto');
 });
 
-router.get('/persona', isLoggedIn, (req, res) => {
-  res.render('auth/persona');
-});
-
-
-
-router.post('/persona', async (req, res) => {
-  const { nombre, apellido, date, celular } = req.body;
-  const id = req.user.id;
-  await pool.query('INSERT  Persona(id_Credencial,nombre, apellido,Nacimiento,celular,fechaRegistro) values(?,?,?,?,?,NOW())', [id, nombre, apellido, date, celular]);
-  await pool.query('INSERT  cliente(idPersona,numero_Tarjeta,ciudad,Direccion) values(?,null,null,null)', [id]);
-
-  res.redirect('/perfil');
-});
-
 
 router.get('/detalle/:id', async (req, res) => {
   const { id } = req.params;
-  const idu = req.user.id;
-  cliente = await pool.query('select id from cliente where idPersona=?', [idu]);
-  console.log(cliente);
-  const detalle = await pool.query('select pp.id,p.imagen,p.nombre,pp.precio,mar.marca,mat.material from promociones_producto as pp  inner join producto as p  on(pp.idProducto=p.id) inner join marca as mar on(p.idMarca=mar.id) inner join material as mat on(p.idMaterial=mat.id) where pp.id=?', [id]);
-  row = await pool.query('select codigoVenta from venta_cliente where idCliente=? and estado=?', [cliente[0].id, 0]);
-  console.log(row)
-  if (Object.keys(row).length === 0) {
-    await pool.query('insert venta_cliente(idCliente,fecha,estado) values(?,NOW(),?)', [cliente[0].id, 0]);
-  }
+  //const idu = req.user.id;
+ // cliente = await pool.query('select id from cliente where idPersona=?', [id_p.RowDataPacket.id]);
+  //console.log(cliente);
+  const talla= await pool.query('select it.id as id,it.nombre as name from tblinv_talla_producto as tp inner join tblinv_tallas as it on(tp.id_talla=it.id) where tp.id_producto=?',id)
+  console.log(talla);
+  const detalle = await pool.query('select p.id,p.codproducto,p.imagen,p.precio_venta,m.nombre as marca, ma.nombre as material from tblinv_producto as p  left join tblinv_marca as m  on(p.id_marca=m.id) left join tblinv_material as ma on(p.id_marca=ma.id) where p.id=? ', [id]);
+ // row = await pool.query('select codigoVenta from venta_cliente where idCliente=? and estado=?', [cliente[0].id, 0]);
+ // console.log(row)
+//  if (Object.keys(row).length === 0) {
+  //  await pool.query('insert venta_cliente(idCliente,fecha,estado) values(?,NOW(),?)', [cliente[0].id, 0]);
+  //}
 
 
 
-  res.render('secciones/detalle', { detalle });
-  console.log(detalle)
+  res.render('secciones/detalle', { detalle,talla });
 });
 
+//  Camisas
 router.get('/camisas', async (req, res) => {
-  const camisas = await pool.query('select pp.id,p.imagen,p.nombre,pp.precio from promociones_producto as pp  inner join producto as p  on(pp.idProducto=p.id) where idCategoria=1 ');
+  const camisas = await pool.query('select * from tblinv_producto where id_categoria=1 ');
   res.render('secciones/camisa', { camisas });
-  console.log(camisas)
-});
 
+});
+// pantalones
 router.get('/pantalones', async (req, res) => {
   const pantalon = await pool.query('select pp.id,p.imagen,p.nombre,pp.precio from promociones_producto as pp  inner join producto as p  on(pp.idProducto=p.id) where idCategoria=2');
   res.render('secciones/pantalones', { pantalon });
 });
-
+// Gorras
 router.get('/Gorras', async (req, res) => {
   const gorras = await pool.query('select pp.id,p.imagen,p.nombre,pp.precio from promociones_producto as pp  inner join producto as p  on(pp.idProducto=p.id) where idCategoria=3');
   res.render('secciones/gorras', { gorras });
@@ -63,23 +50,24 @@ router.get('/zapatos', async (req, res) => {
 });
 
 router.post('/carrito/agregar/:id', async (req, res) => {
-  console.log("HOLAAAAAAAAAAAAAA");
-  console.log(req.body);
+  // this variables, i will get from DOM
   const { talla, cantidad } = req.body;
-  console.log(req.body);
   const idu = req.user.id;
   const { id } = req.params;
-  cliente = await pool.query('select id from cliente where idPersona=?', [idu]);
+  const estado=0;
+  const precio = await pool.query('select precio_venta from tblinv_producto where id=?', [id]);
+  console.log(precio);
+  const stotal = cantidad * precio[0].precio_venta;
+  for (let index = 0; index <cantidad; index++) {
+    await pool.query('insert tblcarro_bolsa_cliente(id_user,id_producto,id_talla,subtotal,estado,fecha) values(?,?,?,?,?,NOW())', [idu, id, talla, stotal,estado]);
+  
+  }
+  
+  //cliente = await pool.query('select id from cliente where idPersona=?', [idu]);
 
-  row = await pool.query('select codigoVenta from venta_cliente where idCliente=? and estado=?', [cliente[0].id, 0]);
-
-
-  precio = await pool.query('select precio from promociones_producto where id=?', [id]);
-  stotal = cantidad[0][0] * precio[0].precio;
-  await pool.query('insert bolsa_compra_cliente(codVenta,idProducto,talla,cantidad,subTotal,fechas) values(?,?,?,?,?,NOW())', [row[0].codigoVenta, id, 1, cantidad[0][0], stotal]);
-  res.redirect('/camisas');
-
-
+ // row = await pool.query('select codigoVenta from venta_cliente where idCliente=? and estado=?', [cliente[0].id, 0]);
+ 
+   res.redirect('/camisas');
 
 });
 
@@ -98,16 +86,22 @@ router.post('/contacto/mensaje', async (req, res) => {
 });
 router.get('/carrito', async (req, res) => {
   const idu = req.user.id;
-  cliente = await pool.query('select id from cliente where idPersona=?', [idu]);
-  row = await pool.query('select codigoVenta from venta_cliente where idCliente=? and estado=?', [cliente[0].id, 0]);
-  sub = await pool.query('select sum(subTotal) as total from bolsa_compra_cliente where codVenta=?', [row[0].codigoVenta]);
+  //cliente = await pool.query('select id from cliente where idPersona=?', [idu]);
+  //row = await pool.query('select codigoVenta from venta_cliente where idCliente=? and estado=?', [cliente[0].id, 0]);
+  sub = await pool.query('select sum(subtotal) as total from tblcarro_bolsa_cliente where id_user=? and estado=0', [idu]);
 
-  const carro = await pool.query('select c.id,p.imagen,p.nombre,m.marca,c.cantidad,c.subTotal,pp.precio from bolsa_compra_cliente as c inner join venta_cliente as vc on (c.codVenta=vc.codigoVenta) inner join promociones_producto as pp on(c.idProducto=pp.id) inner join producto as p on(pp.idProducto=p.id) inner join marca as m on(p.idMarca=m.id) where c.codVenta= ?', [row[0].codigoVenta]);
+  const carro = await pool.query('select cb.id as id_carrito, p.id,p.nombre,p.imagen,p.precio_venta,m.nombre as marca,mat.nombre as material from tblcarro_bolsa_cliente as cb inner join tblinv_producto as p on(cb.id_producto=p.id) left join tblinv_marca as m on(p.id_marca=m.id) left join tblinv_material as mat on(p.id_material=mat.id) where cb.id_user=? and estado=0', [idu]);
   console.log(sub);
   res.render('carro/carro', { carro, sub });
 });
 
+router.get('/carrito/eliminar/:id', async (req, res) => {
+  const { id } = req.params;
+  await pool.query('delete from tblcarro_bolsa_cliente where id=?', [id]);
 
+   res.redirect('/carrito');
+});
+//Proceso del pago
 
 router.post('/pay', (req, res) => {
   const { cantidad } = req.body;

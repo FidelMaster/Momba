@@ -12,6 +12,7 @@ const bodyParser = require('body-parser');
 const { database } = require('../conexion');
 const paypal = require('paypal-rest-sdk');
 
+// configuracion de la cuenta de paypal
 paypal.configure({
   'mode': 'sandbox', //sandbox or live
   'client_id': 'AecbH3HphmupoNsWhVvjcaX3rNEFGF8RFMgRdboXGTu35B4jwWYE15sS0pYy3LZ8dvvdl7VW2E2KlB-b',

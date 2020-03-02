@@ -26,7 +26,7 @@
         Bienvenido, {{nombre}}
       </h1>
       <h4>
-        Miembro desde <date>{{ fechaRegistro}}</date>
+        Miembro desde <date>{{ creado}}</date>
       </h4>
 
     </div>
@@ -44,7 +44,7 @@
             <h4 id="thumbnail-label"><a href="https://flow.microsoft.com/en-us/connectors/shared_slack/slack/"
                 target="_blank">Informacion Personal</a></h4>
             <p><i class="glyphicon glyphicon-user light-red lighter bigger-120"></i>&nbsp;{{nombre}} {{apellido}}</p>
-            <div class="thumbnail-description smaller">Fecha Nacimiento: {{Nacimiento}}</div>
+            <div class="thumbnail-description smaller">Fecha Nacimiento: {{fecha_nacimiento}}</div>
             
             <div class="thumbnail-description smaller">Celular: {{celular}}</div>
 
@@ -92,7 +92,7 @@
 
 
 
-      </ul>
+    
 
       <div class="col-md-6">
         <div class="thumbnail">
