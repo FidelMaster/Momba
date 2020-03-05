@@ -43,14 +43,11 @@ router.get('/login', (req, res) => {
     req.logOut();
     res.redirect('/');
   });
+  
 // perfil del cliente
 router.get('/perfil', isLoggedIn, async(req, res) => {
   const idu=req.user.id;
-  //cliente=await pool.query('select id from cliente where idPersona=?',[idu]);
-   
   const persona = await pool.query('select * from tblusuarios_persona  where id_user= ?',[req.user.id]);
- //  const pedido =await pool.query('select pc.codVenta,pc.fecha,vct.total,ep.estado from pedido_cliente as pc inner join venta_cliente_total as vct on(pc.codVenta=vct.codVenta) inner join estado_pedido as ep on(pc.idEstado=ep.id) where idCliente=?',[cliente[0].id]);
- //  console.log(pedido);
   res.render('perfil/perfil', { persona});
 });
 

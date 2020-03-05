@@ -69,21 +69,21 @@
 
     <div class="col-md-6">
       <div class="col-sm-12">
-        {{#each sub}}
+      
         <div class="thumbnail">
           <h1 style="text-align: center;">Detalle de pago</h1>
           <form action="/pay" method="POST">
             <h3>
-              subTotal:$<input   id="total" onchange="ShowSelected();" name="total" value="{{total}}">
-              </input>
-
+               
+                  subTotal:${{sub_total}}
+                
             </h3>
-            <h3>Envio:$0 </h3>
-            <h3>Total: {{total}}</h3>
+            <h3>Envio:${{tax}} </h3>
+            <h3>Total:${{total}} </h3>
               </div>
-         <button type="submit">Pagar Via Paypal</button>
+            <button type="submit">Pagar Via Paypal</button>
           </form>
-        {{/each}}
+       
       </div>
     </div>
   </div>

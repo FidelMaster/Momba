@@ -11,7 +11,7 @@ passport.use('local.signin', new LocalStrategy({
 }, async (req, correo, password, done) => {
   console.log(correo)
   
-  const rows = await pool.query('select * from tbladmin_users where correo = ?', [correo]);
+  const rows = await pool.query('select * from tbladmin_users as u inner join tbladmin_roles_users as rol where rol.id_role=1 and u.correo = ?', [correo]);
   if (rows.length > 0) {
     const user = rows[0];
      
@@ -21,11 +21,10 @@ passport.use('local.signin', new LocalStrategy({
       done(null, user, req.flash('success', 'Welcome ' + user.correo));
       console.log(validPassword);
     } else {
-      console.log("esta mal");
-      done(null, false, req.flash('message', 'Incorrect Password'));
+      done(null, false, req.flash('message', 'Contraseña incorrecta'));
     }
   } else {
-    return done(null, false, req.flash('message', 'The Username does not exists.'));
+    return done(null, false, req.flash('message', 'Ha ocurrido un error con su usuario favor verifique sus datos'));
   }
 }));
 
