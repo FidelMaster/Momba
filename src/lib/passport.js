@@ -11,7 +11,7 @@ passport.use('local.signin', new LocalStrategy({
 }, async (req, correo, password, done) => {
   console.log(correo)
   
-  const rows = await pool.query('select * from tbladmin_users as u inner join tbladmin_roles_users as rol where rol.id_role=1 and u.correo = ?', [correo]);
+  const rows = await pool.query('select u.id,u.correo,u.password from tbladmin_users as u inner join tbladmin_roles_users as rol where rol.id_role=1 and u.correo = ?', [correo]);
   if (rows.length > 0) {
     const user = rows[0];
      
@@ -33,11 +33,8 @@ passport.use('local.signup', new LocalStrategy({
   passwordField: 'password',
   passReqToCallback: true
 }, async (req, correo, password, done) => {
-  const {nombre, apellido, date} = req.body;
+  const {nombre, apellido, date,Direccion,Ciudad,Celular,Telefono} = req.body;
 
-  // obtengo la direccion ip del usuario
-  //var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-  //rol 1 es cliente
   var rol=1;
   var permiso1=1;
   var permiso2=2;
@@ -50,10 +47,10 @@ passport.use('local.signup', new LocalStrategy({
   const result = await pool.query('insert into tbladmin_users SET ? ', newUser);
   newUser.id = result.insertId;
   await pool.query('insert into tbladmin_roles_users(id_role,id_user,creado,actualizado) values(?,?,current_timestamp(),current_timestamp())', [rol,result.insertId]);
-  await pool.query('insert  tblusuarios_persona(id_user,nombre, apellido,fecha_nacimiento) values(?,?,?,?)', [result.insertId, nombre, apellido, date]);
+  await pool.query('insert  tblusuarios_persona(id_user,nombre, apellido,fecha_nacimiento,direccion,ciudad) values(?,?,?,?,?,?)', [result.insertId, nombre, apellido, date,Direccion,Ciudad]);
   id_p= await pool.query('select id from tblusuarios_persona where id_user=?', [result.insertId]);
   console.log(id_p[0].id)
-  await pool.query('insert  tblusuarios_clientes(id_persona) values(?)', [id_p[0].id]);
+  await pool.query('insert  tblusuarios_clientes(id_persona,celular,telefono) values(?,?,?)', [id_p[0].id,Celular,Telefono]);
   return done(null, newUser);
 }));
 

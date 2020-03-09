@@ -48,7 +48,8 @@ router.get('/login', (req, res) => {
 router.get('/perfil', isLoggedIn, async(req, res) => {
   const idu=req.user.id;
   const persona = await pool.query('select * from tblusuarios_persona  where id_user= ?',[req.user.id]);
-  res.render('perfil/perfil', { persona});
+  const pedido = await pool.query('select * from tblpedido_pedido_cliente where id_user=?',[idu])
+  res.render('perfil/perfil', { persona,pedido});
 });
 
 module.exports = router;
