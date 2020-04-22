@@ -16,7 +16,7 @@
 
   /*basic reset*/
   * {
-    margin: 0;
+    margin: 0;f
     padding: 0;
   }
 
@@ -30,7 +30,7 @@
   }
 
   body {
-    font-family: montserrat, arial, verdana;
+    font-family: Arial, Helvetica, sans-serif;
   }
 
   /*form styles*/
@@ -160,30 +160,103 @@
     background: #27AE60;
     color: white;
   }
+
+ .Fondo{
+    background: #27AE60;
+background-image: url(images/pexels.jpg);
+
+
+ } 
+ .Log{
+   width: 600px;
+  
+ }
+
+ .nj{
+   width: 100px;
+   height: 100px;
+   display: block;
+   margin: auto;
+ }
+ .hol{
+    width: 100px;
+   height: 100px;
+   right: 100px;
+ }
+ .fil{
+  
+ }
+ .conn{
+   display:inline-flex ;
+ }
+
+ .pag{
+   color:white;
+   font-size: 30px;
+   margin-bottom: 20px;
+   margin-top: 0;
+   margin-
+
+ }
+ .gridd{
+   display: grid;
+   grid-template-columns: repeat(2,50%);
+ }
+ *::-webkit-input-placeholder {
+    /* Google Chrome y Safari */
+     font-family: sans-serif;
+}
 </style>
 
-<div class="row">
-  <div class="page-title" style="background-image: url(images/page-title.png)">
-    <h1>Registro</h1>
-  </div>
-</div>
-<div class="row">
+<div class="row Fondo">
   <form  action="/registro" method="POST" id="msform">
     <!-- progressbar -->
     <!-- fieldsets -->
-    <fieldset>
-       <h2 class="fs-title">Datos Personales</h2>
-       <h3 class="fs-subtitle"> </h3>
+
+ <div class="row">
+    <h1 class="pag" style="margin-bottom: 20px;">Registro</h1>
+
+</div>
+    <fieldset class="fil" style="width: 900px; position:relative; right: 280px;">
+    
+<div class="gridd">
+  <div style="margin-right:10px">
+           <div class="conn" style="margin-bottom: 30px;">
+         <div>
+           <img src="images/registro.png" style="max-width:100%;width:70px;height:70px;">
+         </div>
+         <div>
+           <h2 class="fs-title" style="position: relative; top: 10px; left:15px">Datos Personales</h2>
+         </div>
+
+       </div>
+      
        <input type="text" name="correo" placeholder="Email" />
        <input type="password" name="password" placeholder="Password" />
        <input type="text"onKeyPress="return soloLetras(event);" name="nombre" placeholder="Nombre" />
        <input type="text"onKeyPress="return soloLetras(event);"  name="apellido" placeholder="Apellido" />
-       <label for="date">Fecha de Nacimiento</label>
+      
+  </div>
+  <div>
+        <div class="conn" style="margin-top: 10px; margin-bottom:30px">
+         <div>
+           <img src="images/calendario.png" style="max-width:100%;width:60px;height:60px;">
+         </div>
+         <div>
+             <h2 class="fs-title"  style="position: relative; left:10px">Fecha de Nacimiento</h2>
+         </div>
+
+       </div>
+    
        <input id="date" type="date" name="date">
        <textarea type="text"onKeyPress="return soloLetras(event);"  name="Direccion" placeholder="Direccion" ></textarea>
        <input type="text"onKeyPress="return soloLetras(event);"  name="Ciudad" placeholder="Ciudad" />
        <input type="text"onKeyPress="return soloNumeros(event);"  name="Celular" placeholder="Celular" />
-       <input type="text"onKeyPress="return soloNumeros(event);"  name="Telefono" placeholder="Telefono" />    
+       <input type="text"onKeyPress="return soloNumeros(event);"  name="Telefono" placeholder="Telefono" />  
+  </div>
+</div>
+
+  
        <button type="submit" class="btn btn-primary">Continuar</button>
     </fieldset>
   </form>

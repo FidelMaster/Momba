@@ -14,92 +14,102 @@
     cursor: pointer;
     box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 1);
   }
-</style>
-<div class="page-title" style="background-image: url(images/page-title.png)">
-</div>
+  .banner{
+    height: 300px;
+  }
+  .imgg{
+    display: block;
+    margin: auto;
+  }
+  .info{
+    width: 100%;
+    height: 80px;
+   background-color: #282333;
+    display: grid;
+    grid-template-columns: repeat(4,25%);
+    margin-bottom: 20px;
+    font-size: 18px;
+    color: #EC5538;
 
-<div class="container">
+  }
+  .Hist{
+    color: black;
+    font-size: 25px;
+    text-align: center;
+    margin-left: 10px;
+    
+  }
+  .este{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+  
+    
+  }
+</style>
+
+<div class="banner" style="background-image: url(images/FondoRe.png)">
   {{#each  persona}}
   <div class="row">
     <div class="container">
-      <h1>
-        Bienvenido, {{nombre}}
+        <img class="imgg" src="images/usuario.png" style="max-width:100%;width:130px;height:130px; margin-top:20px">
+      <h1 style="color: white; text-align:center" >
+      {{nombre}}
       </h1>
-      <h4>
+      <h6 style="color: white;text-align:center">
         Miembro desde <date>{{ creado}}</date>
-      </h4>
+      </h6>
 
     </div>
   </div>
 
+</div>
+<div class="info">
+  <div style="text-align: center;">
+     
+       <p style="margin-top: 10px;"><i class="glyphicon glyphicon-user light-red lighter bigger-120"></i> Nombre</p>
+              <p>&nbsp;{{nombre}} {{apellido}}</p>
+  </div>
+<div  style="text-align: center;">
+  <p style="margin-top: 10px;"><i class=" glyphicon glyphicon-calendar light-red lighter bigger-120"></i> Fecha Nacimiento</p>
+            <div class="thumbnail-description smaller"> {{fecha_nacimiento}}</div>
+</div>
+<div  style="text-align: center;">
+  
+  <p style="margin-top: 10px;"><i class="glyphicon glyphicon-home light-red lighter bigger-120"></i> Direccion</p>
+               <div class="thumbnail-description smaller"> {{direccion}}</div>
+</div>
+<div  style="text-align: center;">
+  <p style="margin-top: 10px;"> <i class="glyphicon glyphicon-pushpin light-red lighter bigger-120"></i> Ciudad</p>
+                <div class="thumbnail-description smaller"> {{ciudad}}</div>
+</div>
+</div>
+
+<div class="container">
+
+
+
   <div class="container">
     <div class="row">
 
-      <div class="col-md-6">
-        <div class="thumbnail">
-          <div class="caption text-center">
-            <div class="position-relative">
 
-            </div>
-            <h4 id="thumbnail-label"><a href="https://flow.microsoft.com/en-us/connectors/shared_slack/slack/"
-                target="_blank">Informacion de entrega</a></h4>
-            <p><i class="glyphicon glyphicon-user light-red lighter bigger-120"></i>&nbsp;{{nombre}} {{apellido}}</p>
-            <div class="thumbnail-description smaller">Fecha Nacimiento: {{fecha_nacimiento}}</div>
-             <div class="thumbnail-description smaller">Direccion: {{direccion}}</div>
-             <div class="thumbnail-description smaller">Ciudad: {{ciudad}}</div>
-            
-          </div>
-          <div class="caption card-footer text-center">
-            <ul class="list-inline">
-
-              <button type="button" class="btn btn-primary" data-toggle="modal"
-                data-target="#exampleModalCenter">Editar</button>
-              <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
-                aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered" role="document">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h5 class="modal-title" id="exampleModalLongTitle">Informacion Personal</h5>
-                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                      </button>
-                    </div>
-                    <div class="modal-body">
-                      ...
-                    </div>
-                    <div class="modal-footer">
-                      <button class="btn btn-primary">Actualizar</button>
-                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <li></li>
-              <li><i class="glyphicon glyphicon-envelope lighter"></i><a href="#">&nbsp;Help</a></li>
-            </ul>
-          </div>
-        </div>
-      </div>
       {{/each }}
+<div class="este text-center">
+  <div>
+<img src="images/lista.png" style="max-width:100%;width:60px;height:60px;">
+  </div>
+  <div>
+<h4 class="Hist">Historial de Compras </h4>
+  </div>
+</div>
 
-
-
-
-
-
-
-
-
-    
-
-      <div class="col-md-6">
-        <div class="thumbnail">
+         
+      <div class="col-md-12" style="margin-bottom: 30px;">
+     
           <div class="caption text-center">
-
-            <h4 id="thumbnail-label"><a target="_blank">Historial de Compras </a></h4>
-            <table class="table">
+ 
+            <table class="table table-striped">
               <thead>
                 <tr>
                   <th scope="col">#</th>
@@ -127,10 +137,12 @@
               </tbody>
             </table>
 
-          </div>
         </div>
 
       </div>
+
+
+
     </div>
   </div>
 </div>
