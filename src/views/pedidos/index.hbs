@@ -1,0 +1,150 @@
+ 
+ <div class="container">
+
+  <div class="row" style="border-top-width: 1px; border-color: #e3ded1; border-top-style: solid;">
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-12">
+
+
+
+            <!-- Main content -->
+            <div class="invoice p-3 mb-3">
+              <!-- title row -->
+
+              <!-- info row -->
+              <div class="row invoice-info">
+
+                <!-- /.col -->
+                <div class="col-sm-4 invoice-col">
+
+                  <address>
+                    {{#each persona}}
+                    <strong>{{nombre}} {{apellido}}</strong><br>
+                    Direccion:{{direccion}}<br>
+                    Ciudad:  {{ciudad}}<br>
+                    celular: (505) {{celular}}<br>
+                    Telefono:{{telefono}}<br>
+                  </address>
+                  {{/each}}
+                </div>
+                <!-- /.col -->
+                <div class="col-sm-4 invoice-col">
+                  {{#each cod}}
+                  <b>Factura #{{id}}</b>
+                  <br>
+                  <b>Numero de Pedido:</b> {{id}}<br>
+                  <b>Fecha del Pedido:</b> {{fecha}}<br>
+
+                  {{/each}}
+                  {{#each estado}}
+                  <b>Estado:{{nombre}}</b>
+                  {{/each}}
+                </div>
+                    <div class="col-sm-4 invoice-col">
+
+                                    {{#each repartidor}}
+
+                                    <b>Detalle Repartidor</b>
+                                    <br>
+                                    <b>Nombre:</b> {{nombre}}<br>
+                                    <b>Modelo Vehiculo:</b> {{modelo_carro}}<br>
+                                    <b>Color:</b> {{color}}<br>
+                                    <b>Placa:</b> {{placa}}<br>
+
+                                    {{/each}}
+
+                                </div>
+                <!-- /.col -->
+              </div>
+              <!-- /.row -->
+
+              <!-- Table row -->
+              <div class="row">
+                <div class="col-12 table-responsive">
+                  <table class="table table-striped">
+                    <thead>
+
+                      <tr>
+
+                        <th>Cantidad</th>
+                        <th>Imagen</th>
+                        <th>Nombre</th>
+
+                        <th>Subtotal</th>
+                      </tr>
+
+                    </thead>
+                    <tbody>
+                      {{#each pd}}
+                      <tr>
+                        <td>{{cantidad}}</td>
+                        <td><img src="../{{imagen}}" style="height: 100px; width:100px " class="card-img"></td>
+                        <td>{{nombre}}</td>
+
+                        <td>${{precio_venta}}</td>
+                      </tr>
+                      {{/each}}
+
+
+                    </tbody>
+                  </table>
+                </div>
+                <!-- /.col -->
+              </div>
+              <!-- /.row -->
+
+              <div class="row">
+                <!-- accepted payments column -->
+
+                <!-- /.col -->
+
+
+                <div class="col-6">
+
+
+                  <div class="table-responsive">
+                    <table class="table">
+                      {{#each totales}}
+                      <tr>
+                        <th style="width:50%">Subtotal:</th>
+                        <td>${{subtotal}}</td>
+                      </tr>
+                      <tr>
+                        <th>Tax </th>
+                        <td>${{tax}}</td>
+                      </tr>
+
+                      <tr>
+                        <th>Total:</th>
+                        <td>${{total}}</td>
+                      </tr>
+                      {{/each}}
+                    </table>
+                  </div>
+                </div>
+                <div class="col-6">
+ 
+
+
+
+                </div>
+                <!-- /.col -->
+              </div>
+              <!-- /.row -->
+
+
+            </div>
+            <!-- /.invoice -->
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+
+
+
+  </div>
+ 
+ </div>

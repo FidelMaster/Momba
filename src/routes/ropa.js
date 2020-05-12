@@ -12,6 +12,7 @@ router.get('/contacto', (req, res) => {
 
 //obtener el detalle del producto
 router.get('/detalle/:id', async (req, res) => {
+  
   const { id } = req.params;
   const talla= await pool.query('select it.id as id,it.nombre as name from tblinv_talla_producto as tp inner join tblinv_tallas as it on(tp.id_talla=it.id) where tp.id_producto=?',id)
   console.log(talla);
@@ -21,6 +22,7 @@ router.get('/detalle/:id', async (req, res) => {
 
 //  Camisas
 router.get('/camisas', async (req, res) => {
+  console.log(req)
   const camisas = await pool.query('select * from tblinv_producto where id_categoria=1 ');
   res.render('secciones/camisa', { camisas });
 
@@ -28,6 +30,7 @@ router.get('/camisas', async (req, res) => {
 // pantalones
 router.get('/pantalones', async (req, res) => {
   const pantalon = await pool.query('select * from tblinv_producto where id_categoria=2');
+  console.log(pantalon)
   res.render('secciones/pantalones', { pantalon });
 });
 // Gorras
@@ -68,21 +71,35 @@ router.post('/contacto/mensaje', async (req, res) => {
 });
 
 //Ver el contenido del carro de compras
-router.get('/carrito', async (req, res) => {
+router.get('/carrito',isLoggedIn, async (req, res) => {
   // con req.user.id se obtiene el id del usuario que esta loggeado 
   const idu = req.user.id;
-  const dolar=await pool.query('select valor from tbladmin_taza_cambio order by fecha desc limit 1')
-  let total=0.00;
-  const tax= (100.00/dolar[0].valor).toFixed(2);
-  const sub = await pool.query('select sum(subtotal) as subtotal from tblcarro_bolsa_cliente where id_user=? and estado=0', [idu]);
-  let sub_total=(sub[0].subtotal).toFixed(2)
-  const carro = await pool.query('select cb.id as id_carrito, p.id,p.nombre,p.imagen,p.precio_venta,m.nombre as marca,mat.nombre as material from tblcarro_bolsa_cliente as cb inner join tblinv_producto as p on(cb.id_producto=p.id) left join tblinv_marca as m on(p.id_marca=m.id) left join tblinv_material as mat on(p.id_material=mat.id) where cb.id_user=? and estado=0', [idu]);
-  console.log(dolar);
+   const sub = await pool.query('select sum(subtotal) as subtotal from tblcarro_bolsa_cliente where id_user=? and estado=0', [idu]);
+    //Si el carro esta vacio se manda a otra pagina
+   if (sub[0].subtotal) {
+  
+    const dolar=await pool.query('select valor from tbladmin_taza_cambio order by fecha desc limit 1')
+    let total=0.00;
+    const tax= (100.00/dolar[0].valor).toFixed(2);
+  
+    let sub_total=(sub[0].subtotal).toFixed(2)
+    const carro = await pool.query('select cb.id as id_carrito, p.id,p.nombre,p.imagen,p.precio_venta,m.nombre as marca,mat.nombre as material from tblcarro_bolsa_cliente as cb inner join tblinv_producto as p on(cb.id_producto=p.id) left join tblinv_marca as m on(p.id_marca=m.id) left join tblinv_material as mat on(p.id_material=mat.id) where cb.id_user=? and estado=0', [idu]);
+  
+    total=( parseFloat(tax)+ parseFloat((sub[0].subtotal)));
+    console.log(total);
+    res.render('carro/carro', { carro, sub_total ,tax,total});
+  }else{
+    res.render('carro/carrov');
  
-  total=( parseFloat(tax)+ parseFloat((sub[0].subtotal)));
-  console.log(total);
-  res.render('carro/carro', { carro, sub_total ,tax,total});
+  }
+
 });
+
+// Eliminar producto del carrito
+router.get('/politicas', async (req, res) => {
+  res.render('terminos/index');
+});
+
 
 
 // Eliminar producto del carrito
@@ -194,15 +211,16 @@ router.get('/success', async (req, res) => {
       total=(parseFloat(tax)+ parseFloat((sub[0].subtotal)));      
       //payment.transactions[0].amount.total
       await pool.query('insert tblventa_factura_cliente(id_user,fecha,estado) values(?,now(),0)', [idu]);
-      const id= await pool.query('select id from tblventa_factura_cliente where id_user=?', [idu]);
+      const id= await pool.query('select id from tblventa_factura_cliente where id_user=? and estado=0', [idu]);
       const datos= await pool.query('SELECT id_producto,id_talla,COUNT(id) as cantidad FROM tblcarro_bolsa_cliente where id_user=? and estado=0 group by id_producto, id_talla',[idu])
       for (let index = 0; index < datos.length; index++) {
         await pool.query('insert tblventa_factura_detalle(cod_factura,id_producto,cantidad,fecha,creado,actualizado) values(?,?,?,now(),now(),now())', [id[0].id,datos[index].id_producto,datos[index].cantidad]);
-        await pool.query('update tblinv_inventario set existencias=existencias-? where id_producto=? and id_tallas=?',[datos[index].cantidad,datos[index].id_producto,datos[index].id_talla])
+        await pool.query('update tblinv_inventario set disponibilidad=disponibilidad-? where id_producto=? and id_tallas=?',[datos[index].cantidad,datos[index].id_producto,datos[index].id_talla])
       }
       await pool.query('insert tblventa_factura_pago(cod_factura,subtotal,descuento,tax,total,fecha,creado,actualizado) values(?,?,0,?,?,now(),now(),now())', [id[0].id,sub[0].subtotal, tax,total]);
       await pool.query('insert tblpedido_pedido_cliente(cod_factura,id_user,id_estado,fecha,creado,actualizado) values(?,?,6,now(),now(),now())', [id[0].id,idu]);
       await pool.query('update tblcarro_bolsa_cliente set estado=1 where id_user=? and estado=0', [idu]);
+      await pool.query('update tblventa_factura_cliente set estado=1 where id_user=? and estado=0', [idu]);
 
       res.redirect('/perfil');
 

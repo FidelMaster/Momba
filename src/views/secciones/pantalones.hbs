@@ -23,23 +23,17 @@
 
     <div class="container "style="margin-top: 30px;">
      <div class="row">
-        {{#each pantalones}}
+        {{#each pantalon}}
         <div class="col-md-4">
          <div class="thumbnail"  >
-          <div class="caption text-center" onclick="/detalle/{{id}}">
+          <div class="caption text-center" onclick="location.href='/detalle/{{id}}'">
             <div class="position-relative">
-            <img src="/images/Camisas/{{imagen}}" class="card-img-top"  style="height:150px; weight:150px;"  alt="10px">
+            <img src={{imagen}} class="card-img-top"  style="height:150px; weight:150px;"  alt="10px">
             </div> 
                <h4>{{nombre}}</h4>
-            <div class="thumbnail-description smaller"><h4>${{precio}}</h4></div>
+            <div class="thumbnail-description smaller"><h4>${{precio_venta}}</h4></div>
           </div>
-          <div class="caption card-footer text-center">
-            <ul class="list-inline">
-              <li><button class="btm btn-primary">Ver detalles</button></li>
-              <li></li>
-              <li><i class="glyphicon glyphicon-envelope lighter"></i><a href="#">&nbsp;Help</a></li>
-            </ul>
-          </div>
+      
          </div>
         </div>
           {{/each}}

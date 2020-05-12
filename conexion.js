@@ -1,18 +1,13 @@
 module.exports = {
 
-    database: {
-        connectionLimit: 10,
-        host: 'localhost',
-        user: 'root',
-        password: '',
-<<<<<<< HEAD
-        database: 'clienteback'
-=======
-        database: 'mombashop',
-     
->>>>>>> b71457cd292e3846d3cdfb51259364a9dfa86e18
-    }
-
+        database: {
+                connectionLimit: 10,
+                host: 'localhost',
+                user: 'root',
+                password: '123456789',
+                database: 'mombashop'
+            }
+        
 };
 
 

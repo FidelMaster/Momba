@@ -112,7 +112,7 @@
             <table class="table table-striped">
               <thead>
                 <tr>
-                  <th scope="col">#</th>
+                   
                   <th scope="col">Codigo compra</th>
                   <th scope="col">Fecha Pedido</th>
                   <th scope="col">Total</th>
@@ -125,12 +125,12 @@
                 {{#each  pedido}}
                 <tr>
 
-                  <th scope="row">1</th>
+                
                   <td>{{cod_factura}}</td>
                   <td>{{fecha}}</td>
                   <td>{{total}}</td>
                   <td>{{estado}}</td>
-                  <td><button type="submit" class="btn btn-primary">Ver detalle</button></td>
+                  <td><a class="btn btn-primary" href="/pedidos/{{cod_factura}}">Ver detalle</a></td>
 
                 </tr>
                 {{/each}}
