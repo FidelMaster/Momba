@@ -214,7 +214,7 @@ router.get('/success', async (req, res) => {
       const id= await pool.query('select id from tblventa_factura_cliente where id_user=? and estado=0', [idu]);
       const datos= await pool.query('SELECT id_producto,id_talla,COUNT(id) as cantidad FROM tblcarro_bolsa_cliente where id_user=? and estado=0 group by id_producto, id_talla',[idu])
       for (let index = 0; index < datos.length; index++) {
-        await pool.query('insert tblventa_factura_detalle(cod_factura,id_producto,cantidad,fecha,creado,actualizado) values(?,?,?,now(),now(),now())', [id[0].id,datos[index].id_producto,datos[index].cantidad]);
+        await pool.query('insert tblventa_factura_detalle(cod_factura,id_producto,cantidad,fecha,creado,actualizado,id_talla) values(?,?,?,now(),now(),now(),?)', [id[0].id,datos[index].id_producto,datos[index].cantidad,datos[index].id_talla]);
         await pool.query('update tblinv_inventario set disponibilidad=disponibilidad-? where id_producto=? and id_tallas=?',[datos[index].cantidad,datos[index].id_producto,datos[index].id_talla])
       }
       await pool.query('insert tblventa_factura_pago(cod_factura,subtotal,descuento,tax,total,fecha,creado,actualizado) values(?,?,0,?,?,now(),now(),now())', [id[0].id,sub[0].subtotal, tax,total]);
