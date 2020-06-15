@@ -1,4 +1,42 @@
  
+<style>
+.pruueba{
+    padding: 15px;
+    height: 220px;
+    margin-top: 20px;
+    border-radius: 4px;
+    background: #f0f3fa;
+    
+}
+.tt{
+  font-size: 16px;
+  font-weight: bold;
+
+}
+.pruueba::before {
+
+    content: "";
+    width: 380px;
+    height: 3px;
+    display: block; 
+    margin-left: auto;
+    margin-right: auto;
+    position: absolute;
+    top: 20px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: linear-gradient(to right, #EC5538 0%, blue 100% ) ;
+  
+}
+
+.pdeta{
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+  color:#6f717e;
+}
+</style>
  <div class="container">
 
   <div class="row" style="border-top-width: 1px; border-color: #e3ded1; border-top-style: solid;">
@@ -20,117 +58,100 @@
                 <div class="col-sm-4 invoice-col">
 
                   <address>
+                  <div class="pruueba" >     
+                    <p class="pdeta">Detalle Usuario</p>                
                     {{#each persona}}
-                    <strong>{{nombre}} {{apellido}}</strong><br>
-                    Direccion:{{direccion}}<br>
-                    Ciudad:  {{ciudad}}<br>
-                    celular: (505) {{celular}}<br>
-                    Telefono:{{telefono}}<br>
+                    <p> <strong>Nombre: </strong> {{nombre}} {{apellido}}</p>
+                    <p><strong>Direccion: </strong>{{direccion}}</p>
+                    <p><strong>Ciudad: </strong>  {{ciudad}}</p> 
+                    <p><strong>Celular: +505</strong> {{celular}}</p>
+                    <p><strong>Telefono:  </strong>{{telefono}}</p>
+                  </div>
                   </address>
                   {{/each}}
                 </div>
                 <!-- /.col -->
                 <div class="col-sm-4 invoice-col">
+                  <div class="pruueba" >  
+                      <p class="pdeta">Detalle del pedido</p>     
                   {{#each cod}}
-                  <b>Factura #{{id}}</b>
-                  <br>
-                  <b>Numero de Pedido:</b> {{id}}<br>
-                  <b>Fecha del Pedido:</b> {{fecha}}<br>
+                  <p><b>Factura #{{id}}</b></p>
+                  <p><b>Numero de Pedido:</b> {{id}}</p>
+                  <p><b>Fecha del Pedido:</b> {{fecha}}</p>
 
                   {{/each}}
                   {{#each estado}}
-                  <b>Estado:{{nombre}}</b>
-                  {{/each}}
+                <p style="color: green;"><b>Estado:</b>{{nombre}}</p>  
+
+                <div class="progress">
+                <div class="progress-bar" role="progressbar" style="width: {{porcentaje}}%; background-color:green; text-align:center" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">{{porcentaje}}%</div>
                 </div>
+                  {{/each}}
+                  </div>
+                </div>
+                
                     <div class="col-sm-4 invoice-col">
 
-                                    {{#each repartidor}}
-
-                                    <b>Detalle Repartidor</b>
-                                    <br>
-                                    <b>Nombre:</b> {{nombre}}<br>
-                                    <b>Modelo Vehiculo:</b> {{modelo_carro}}<br>
-                                    <b>Color:</b> {{color}}<br>
-                                    <b>Placa:</b> {{placa}}<br>
-
-                                    {{/each}}
-
-                                </div>
+                <div class="pruueba" > 
+                    <p class="pdeta">Detalle Repartidor</p> 
+                     {{#each repartidor}}
+                      <p><b>Nombre:</b> {{nombre}}</p>
+                         <p><b>Modelo Vehiculo:</b> {{modelo_carro}}</p>
+                         <p><b>Color:</b> {{color}}</p>   
+                         <p><b>Placa:</b> {{placa}}</p>  
+                      {{/each}}
+                    </div>
+                    </div>
                 <!-- /.col -->
               </div>
               <!-- /.row -->
 
               <!-- Table row -->
               <div class="row">
-                <div class="col-12 table-responsive">
-                  <table class="table table-striped">
+                  <table class=" table table-striped">
                     <thead>
-
                       <tr>
-
-                        <th>Cantidad</th>
-                        <th>Imagen</th>
-                        <th>Nombre</th>
-
-                        <th>Subtotal</th>
+                        <th style="color:#EC5538; text-align: center;">Cantidad</th>
+                        <th style="color: #EC5538;text-align: center;">Imagen</th>
+                        <th style="color: #EC5538;text-align: center;">Nombre</th>
+                        <th style="color: #EC5538;text-align: center;">Subtotal</th>
                       </tr>
-
                     </thead>
                     <tbody>
                       {{#each pd}}
-                      <tr>
-                        <td>{{cantidad}}</td>
-                        <td><img src="../{{imagen}}" style="height: 100px; width:100px " class="card-img"></td>
-                        <td>{{nombre}}</td>
-
-                        <td>${{precio_venta}}</td>
+                      <tr style="font-weight: bold;">
+                        <td style="text-align: center;vertical-align: center;">{{cantidad}}</td>
+                        <td style="text-align: center; vertical-align: center;"><img src="../{{imagen}}" style="height: 100px; width:100px " class="card-img"></td>
+                        <td style="text-align: center;vertical-align: center;">{{nombre}}</td>
+                        <td style="text-align: center;vertical-align: center;">${{precio_venta}}</td>
                       </tr>
                       {{/each}}
 
 
                     </tbody>
                   </table>
-                </div>
-                <!-- /.col -->
+
               </div>
               <!-- /.row -->
 
               <div class="row">
-                <!-- accepted payments column -->
-
-                <!-- /.col -->
-
-
-                <div class="col-6">
-
-
-                  <div class="table-responsive">
                     <table class="table">
                       {{#each totales}}
-                      <tr>
-                        <th style="width:50%">Subtotal:</th>
-                        <td>${{subtotal}}</td>
-                      </tr>
-                      <tr>
+                      <tr class="tt" style="color: green;">
+                        <th >Subtotal:</th>
+                        <th>${{subtotal}}</th>
+                      </tr> 
+                      <tr class="tt" style="color: green;">
                         <th>Tax </th>
-                        <td>${{tax}}</td>
+                        <th>${{tax}}</th>
                       </tr>
 
-                      <tr>
-                        <th>Total:</th>
-                        <td>${{total}}</td>
+                      <tr class="tt" style="color: red;">
+                        <th >Total:</th>
+                        <th>${{total}}</th>
                       </tr>
                       {{/each}}
                     </table>
-                  </div>
-                </div>
-                <div class="col-6">
- 
-
-
-
-                </div>
-                <!-- /.col -->
               </div>
               <!-- /.row -->
 

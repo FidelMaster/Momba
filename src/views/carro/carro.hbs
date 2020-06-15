@@ -1,10 +1,58 @@
 <style>
   .thumbnail {
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.5);
-    transition: 0.3s;
-    min-width: 40%;
     border-radius: 5px;
+    border:none;
+    background: #f0f3fa;
+    width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+
   }
+  .martop{
+    margin-bottom: 20px;
+  }
+    .pago {
+    border-radius: 5px;
+    border:none;
+    background: #f0f3fa;
+    width: 800px;
+    padding: 30px;
+    margin-left: auto;
+    margin-right: auto;
+    
+
+  }
+   .thumbnail::before {
+    content: "";
+    width: 800px;
+    height: 3px;
+    display: block; 
+    margin-left: auto;
+    margin-right: auto;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+   background-color: #EC5538;
+  
+}
+.pago::before {
+
+    content: "";
+    width: 800px;
+    height: 3px;
+    display: block; 
+    margin-left: auto;
+    margin-right: auto;
+    position: absolute;
+    top: 70px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: red;
+  
+}
 
   .thumbnail-description {
     min-height: 40px;
@@ -12,7 +60,6 @@
 
   .thumbnail:hover {
     cursor: pointer;
-    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 1);
   }
 
 
@@ -36,27 +83,27 @@
   <h1>Bolsa de Compras</h1>
 </div>
 
-<div class="container " style="margin-top: 10px;">
+<div class="container " >
   <div class="row">
-    <div class="col-md-6">
-      {{#each carro}}
+    <div class="col-md-12">
+      <h1 style="text-align: center;">Detalle del producto</h1>
 
+      {{#each carro}}
       <div class="col-sm-12">
         <div class="thumbnail">
           <div class="card mb-3">
-            <div class="row no-gutters">
-              <div class="col-md-4">
-                <img src="{{imagen}}" class="card-img">
+            <div class="row no-gutters" style="padding:5px">
+              <div class="col-md-6" >
+                <img  style="height: 200px;display:block;margin-left:auto;margin-right:auto" src="{{imagen}}">
               </div>
-              <div class="col-md-8">
-                <div class="card-body">
-                  <h2 class="card-title">{{nombre}}</h2>
 
+              <div class="col-md-6">
+
+                <div class="card-body">
+                  <h2>{{nombre}}</h2>
                   <h4>Marca:{{marca}}</h4>
                   <h4>Precio: ${{precio_venta}}</h4>
-                 
-                     <a href="/carrito/eliminar/{{id_carrito}}" class="btm btn-danger"     >Eliminar</a>
-                   
+                     <a href="/carrito/eliminar/{{id_carrito}}" class="btm btn-danger"> Eliminar Producto</a>
 
                 </div>
               </div>
@@ -67,11 +114,10 @@
       {{/each}}
     </div>
 
-    <div class="col-md-6">
+    <div class="col-md-12 martop">
       <div class="col-sm-12">
-      
-        <div class="thumbnail">
-          <h1 style="text-align: center;">Detalle de pago</h1>
+        <h1 style="text-align: center;">Detalle de pago</h1>
+        <div class="pago">
           <form action="/pay" method="POST">
             <h3>
                
@@ -80,8 +126,9 @@
             </h3>
             <h3>Envio:${{tax}} </h3>
             <h3>Total:${{total}} </h3>
-              </div>
-            <button type="submit">Pagar Via Paypal</button>
+             <button class="btn-primary" type="submit">Pagar Via Paypal</button>
+            </div>
+           
           </form>
        
       </div>
